@@ -3,6 +3,13 @@ import cv2
 from matplotlib import pyplot as plt
 import os
 
+def drawViableMatches(img,kp,image_name,tattoos_dir,sift,viable_match):
+    image=cv2.imread(os.path.join(tattoos_dir,image_name),0)
+    keypoints,descriptor= sift.detectAndCompute(image,None)
+    img3=cv2.drawMatchesKnn(img,kp,image,keypoints,viable_match,img)
+    plt.imshow(img3), plt.show()
+
+
 def scan(suspects_dir,tattoos_dir):
     suspects=[]
     for dir,subdir,files in os.walk(suspects_dir):
@@ -22,17 +29,21 @@ def scan(suspects_dir,tattoos_dir):
     flann=cv2.FlannBasedMatcher(indexParam,searchParam)
     MIN_MATCH_COUNT=10
 
-    probable_suspect=[]
+
     files=[]
     descriptors=[]
+    image_list=[]
     for dir,subdir,filename in os.walk(tattoos_dir):
         files.extend(filename)
         for f in files:
             if(f.endswith('npy')):
                 descriptors.append(f)
+            if(f.endswith('PNG')):
+                image_list.append(f)
 
     max_matches=0
     k=0
+    count=0
     for i in descriptors:
         viable_match=[]
         matches=flann.knnMatch(d,np.load(os.path.join(tattoos_dir,i)),k=2)
@@ -46,8 +57,10 @@ def scan(suspects_dir,tattoos_dir):
         if(len(viable_match)>max_matches):
             k=i
             max_matches=len(viable_match)
-        img3=cv2.drawMatches()
-    print("The culprit is : {}".format(k))
+        print(type(matches))
 
+        drawViableMatches(img,kp,image_list[count],tattoos_dir,sift,matches)
+    print("The culprit is : {}".format(k).upper())
 
-scan('suspects','tattoos')
+if __name__=="__main__":
+    scan('suspects','tattoos')
