@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-img=cv2.imread('chess.PNG')
+img=cv2.imread('images/chess.PNG')
 imggray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 imggray=np.float32(imggray)
 corners=cv2.cornerHarris(imggray,5,29,0.1)
