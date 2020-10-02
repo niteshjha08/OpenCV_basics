@@ -1,7 +1,7 @@
 import cv2
 
 face_cascade=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-img=cv2.imread('test.jpg')
+img=cv2.imread('lampard.PNG')
 imggray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 faces=face_cascade.detectMultiScale(imggray,1.05,3)
 for (x,y,w,h) in faces:
@@ -13,4 +13,4 @@ if(k==ord('y')):
     face=imggray[y:y+h,x:x+w]
     face=cv2.resize(face,(200,200))
     name=input("Enter the index of image:")
-    cv2.imwrite('newfaces/subject{}.pgm'.format(name),face)
+    cv2.imwrite('lamps_face.jpg'.format(name),face)
