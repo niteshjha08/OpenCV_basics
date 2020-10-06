@@ -15,5 +15,5 @@ plt.figure(1)
 plt.imshow(img)
 plt.figure(2)
 plt.imshow(warped)
-
+cv2.Sobel(gray,)
 plt.show()

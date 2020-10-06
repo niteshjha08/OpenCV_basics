@@ -25,7 +25,8 @@ for imagepath in image_list:
 ret,mtx,dist,rvects,tvecs=cv2.calibrateCamera(objectpoints,imagepoints,gray.shape[::-1],None,None)
 img=cv2.imread('calibration_test.png')
 dst=cv2.undistort(img,mtx,dist,None,mtx)
-
-
+print('image size is',img.shape)
+cv2.imshow('frame',dst)
+print('dst size is',dst.shape)
 cv2.imwrite('saved_new.jpg',dst)
 cv2.waitKey()
